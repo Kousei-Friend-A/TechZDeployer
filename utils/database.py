@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 db = MongoClient(
-    "mongodb+srv://techzbots:4tQYI1SD64nr8jz5@rankingsbot.h5std55.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://friendakouseimanu:asdfg@cluster0.1trpq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 ).TechZDeployer.users
 
 
