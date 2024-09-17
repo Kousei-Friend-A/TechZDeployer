@@ -9,7 +9,7 @@ import time
 
 uvloop.install()
 app = Client(
-    "techzdeployer",
+    "elvazodeployer",
     "8143727",
     "e2e9b22c6522465b62d8445840a526b1",
     bot_token="7261523436:AAFNUEZn9fEHbp9B0MNmnKR7m0cgoekvUMM",
