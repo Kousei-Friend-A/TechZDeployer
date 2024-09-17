@@ -1,41 +1,37 @@
-from utils.cmd_runner import CMD_RUNNER
 import requests
-
+from utils.cmd_runner import CMD_RUNNER
 
 class GITHUB(CMD_RUNNER):
     def __init__(self):
-        pass
+        super().__init__()
 
     def clone(self, url):
-        name = ("_".join(url.split("/")[-2:])).lower()
+        name = "_".join(url.split("/")[-2:]).lower()
         path = f"repos/{name}"
-
-        CMD = "git clone " + url + f" {path}"
-        self._runCmd(CMD)
+        cmd = f"git clone {url} {path}"
+        try:
+            self._runCmd(cmd)
+        except Exception as e:
+            raise RuntimeError(f"Failed to clone repository: {e}")
         return name, path
 
     def check_dockerfile(self, url):
-        if "https://ghp_" in url:
-            ghp_key = url.split("https://ghp_")[1].split("@")[0]
+        x = url.split("/")
+        repo_owner, repo_name = x[3], x[4]
+        api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/Dockerfile"
+        
+        try:
+            response = requests.get(api_url)
+            response.raise_for_status()  # Raises HTTPError for bad responses
+            res = response.json()
+        except requests.RequestException as e:
+            raise RuntimeError(f"Failed to check Dockerfile: {e}")
 
-        if ghp_key:
-            x = url.split("/")
-            headers = {"Authorization": f"token ghp_{ghp_key}"}
-            api_url = f"https://api.github.com/repos/{x[3]}/{x[4]}/contents/Dockerfile"
-            res: dict = requests.get(api_url, headers=headers).json()
-        else:
-            x = url.split("/")
-            api_url = f"https://api.github.com/repos/{x[3]}/{x[4]}/contents/Dockerfile"
-            res: dict = requests.get(api_url).json()
-
-        if res.get("name"):
-            if res.get("name") == "Dockerfile":
-                return True
-            else:
-                return False
-        else:
-            return False
+        return res.get("name") == "Dockerfile"
 
     def delete(self, path):
-        CMD = f"rm -rf {path}"
-        self._runCmd(CMD)
+        cmd = f"rm -rf {path}"
+        try:
+            self._runCmd(cmd)
+        except Exception as e:
+            raise RuntimeError(f"Failed to delete repository: {e}")
