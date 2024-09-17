@@ -10,16 +10,16 @@ import time
 uvloop.install()
 app = Client(
     "techzdeployer",
-    "23636845",
-    "d757ec9d2b7f09f474947ad3a2befd00",
-    bot_token="6221266001:AAFvwYhd4xgzSCFdHf2Q6b8C_aacGbG1Cgk",
+    "8143727",
+    "e2e9b22c6522465b62d8445840a526b1",
+    bot_token="7261523436:AAFNUEZn9fEHbp9B0MNmnKR7m0cgoekvUMM",
 )
 
 
 @app.on_message(filters.command(["start", "help"]) & filters.private)
 async def start(client: Client, message: Message):
     await message.reply_text(
-        """**💠 TechZDeployer - Deploy Your Apps For Free**
+        """**💠 Elvazo Deployer - Deploy Your Apps For Free**
 
 🧲 **Two Apps For Free**
 - 0.1 core cpu
@@ -82,7 +82,7 @@ async def deploy(client: Client, message: Message):
             GITHUB.delete(path)
 
 
-@app.on_message(filters.command("removeall") & filters.user(1693701096))
+@app.on_message(filters.command("removeall") & filters.user(7516978527))
 async def removeall(_, message):
     CMD_RUNNER._runCmd("bash rm_docker.sh")
     await message.reply_text("Removed All Images And Containers")
